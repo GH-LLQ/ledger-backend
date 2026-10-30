@@ -37,9 +37,12 @@
 - MySQL 8.0+
 
 ### 2. 数据库准备
-执行根目录下的 `init.sql` 创建数据库和表结构：
+本项目采用 MySQL 8.0。建库建表脚本位于 `src/main/resources/db/init.sql`。
+
+**本地开发环境：**
+请手动执行该脚本以初始化数据库：
 ```bash
-mysql -u root -p < init.sql
+mysql -u root -p < src/main/resources/db/init.sql
 ```
 
 ### 3. 配置修改
