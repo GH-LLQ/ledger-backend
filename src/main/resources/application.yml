@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ledger
+
+  # 👇 把邮件配置放在这里
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: ${MAIL_USERNAME:your_email@qq.com}
+    password: ${MAIL_PASSWORD:your_auth_code} # 👈 默认值是假的，防止真实授权码泄露
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  datasource:
+    # 数据库连接改为动态读取
+    url: ${DB_URL:jdbc:mysql://localhost:3306/finance_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:your_mysql_username}
+    password: ${DB_PASSWORD:your_mysql_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate          # 表已建好，用 validate 只校验不修改
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false            # 避免懒加载陷阱，推荐关掉
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+# 自定义 JWT 配置
+app:
+  jwt:
+    secret: ThisIsASecretKeyForFinanceAppPleaseChangeItAtLeast32BytesLong
+    expiration: 86400000           # 24小时，单位毫秒
+
+# 日志：方便看 SQL
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+
